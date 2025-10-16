@@ -1,0 +1,27 @@
+{
+  "name": "flixtrol",
+  "version": "1.0.0",
+  "description": "Chrome extension to control Netflix from any page with a floating control panel",
+  "scripts": {
+    "generate-icons": "node generate-icons.js && echo '\nNow open generate-icons.html in your browser to create PNGs'",
+    "create-icons": "python3 create-simple-icons.py",
+    "package": "zip -r flixtrol.zip . -x '*.git*' 'node_modules/*' '*.zip' '*.py' '*.html' 'generate-icons.js' '.DS_Store'",
+    "help": "echo 'Available commands:\n  npm run create-icons - Create basic PNG icons\n  npm run package - Package extension for distribution\n  npm run help - Show this help'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "netflix",
+    "remote-control",
+    "streaming",
+    "presentation",
+    "google-meet",
+    "video-control"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/flixtrol"
+  }
+}
+
