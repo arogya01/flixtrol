@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flixtrol UI Test</title>
+    <link rel="stylesheet" href="styles/panel.css" />
+    <style>
+      body {
+        margin: 0;
+        padding: 40px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .demo-container {
+        text-align: center;
+      }
+      h1 {
+        color: white;
+        margin-bottom: 30px;
+        font-size: 32px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+      .note {
+        color: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-top: 30px;
+        backdrop-filter: blur(10px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-container">
+      <h1>🎬 Flixtrol Control Panel</h1>
+      <p class="note">
+        The floating panel should appear in the bottom-right corner
+      </p>
+    </div>
+
+    <!-- Flixtrol Control Panel -->
+    <div id="flixtrol-panel" class="flixtrol-container">
+      <div class="flixtrol-header" id="flixtrol-header">
+        <span class="flixtrol-title">🎬 Netflix Controls</span>
+        <button class="flixtrol-close" id="flixtrol-close">×</button>
+      </div>
+      <div class="flixtrol-status" id="flixtrol-status">
+        <span
+          class="status-indicator"
+          id="status-indicator"
+          style="color: #5eead4"
+          >●</span
+        >
+        <span id="status-text">Netflix Connected</span>
+      </div>
+      <div class="flixtrol-controls">
+        <button class="flixtrol-btn" id="btn-backward" title="Rewind 10s">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M11.99 5V1l-5 5 5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6h-2c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"
+            />
+            <text
+              x="12"
+              y="16"
+              font-size="8"
+              text-anchor="middle"
+              fill="currentColor"
+            >
+              10
+            </text>
+          </svg>
+        </button>
+        <button
+          class="flixtrol-btn flixtrol-btn-primary"
+          id="btn-play-pause"
+          title="Play/Pause"
+        >
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            id="play-icon"
+          >
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </button>
+        <button class="flixtrol-btn" id="btn-forward" title="Forward 10s">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M12 5V1l5 5-5 5V7c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6h2c0 4.42-3.58 8-8 8s-8-3.58-8-8 3.58-8 8-8z"
+            />
+            <text
+              x="12"
+              y="16"
+              font-size="8"
+              text-anchor="middle"
+              fill="currentColor"
+            >
+              10
+            </text>
+          </svg>
+        </button>
+      </div>
+      <div class="flixtrol-volume">
+        <button
+          class="flixtrol-btn-small"
+          id="btn-volume-down"
+          title="Volume Down"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7 9v6h4l5 5V4l-5 5H7z" />
+          </svg>
+        </button>
+        <div class="volume-indicator" id="volume-indicator">
+          <div class="volume-bar" id="volume-bar" style="width: 70%"></div>
+        </div>
+        <button class="flixtrol-btn-small" id="btn-volume-up" title="Volume Up">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Simple demo interactions
+      document
+        .getElementById("flixtrol-close")
+        .addEventListener("click", () => {
+          alert("Close button clicked!");
+        });
+
+      document
+        .getElementById("btn-play-pause")
+        .addEventListener("click", function () {
+          const icon = this.querySelector("svg path");
+          if (icon.getAttribute("d").includes("M8 5v14l11-7z")) {
+            // Change to pause icon
+            icon.setAttribute("d", "M6 4h4v16H6V4zm8 0h4v16h-4V4z");
+          } else {
+            // Change to play icon
+            icon.setAttribute("d", "M8 5v14l11-7z");
+          }
+        });
+
+      // Make draggable
+      const panel = document.getElementById("flixtrol-panel");
+      const header = document.getElementById("flixtrol-header");
+      let isDragging = false;
+      let currentX = 0;
+      let currentY = 0;
+      let initialX = 0;
+      let initialY = 0;
+
+      header.addEventListener("mousedown", (e) => {
+        if (e.target.id === "flixtrol-close") return;
+        isDragging = true;
+        initialX = e.clientX - currentX;
+        initialY = e.clientY - currentY;
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+        panel.style.left = currentX + "px";
+        panel.style.top = currentY + "px";
+        panel.style.right = "auto";
+        panel.style.bottom = "auto";
+      });
+
+      document.addEventListener("mouseup", () => {
+        isDragging = false;
+      });
+    </script>
+  </body>
+</html>

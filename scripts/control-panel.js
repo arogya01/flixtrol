@@ -89,11 +89,11 @@
       
       if (response && response.netflixTabId) {
         netflixTabId = response.netflixTabId;
-        statusIndicator.style.color = '#00ff00';
+        statusIndicator.style.color = '#5eead4'; // Soft teal/cyan
         statusText.textContent = 'Netflix Connected';
       } else {
         netflixTabId = null;
-        statusIndicator.style.color = '#ff0000';
+        statusIndicator.style.color = '#ff8787'; // Soft coral
         statusText.textContent = 'No Netflix Tab Found';
       }
     });
